@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FG-MAGS-SLAM</title>
+<meta name="description" content="Tracking Failures of Multi-Agent Gaussian Splatting SLAM under Temporally Sparse RGB-D Input: Analysis and a Feature-Guided Front End">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1f2328; --muted: #57606a; --accent: #1f6feb;
+    --card: #f6f8fa; --border: #d0d7de; --btn: #24292f; --btn-fg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9da7b3; --accent: #58a6ff;
+            --card: #161b22; --border: #30363d; --btn: #e6edf3; --btn-fg: #0d1117; }
+    .figure img { background: #ffffff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font-family: "Noto Sans", system-ui, sans-serif; line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  header { text-align: center; padding: 56px 0 24px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.3rem); line-height: 1.25; margin: 0 0 20px; }
+  .authors { font-size: 1.1rem; }
+  .authors a { color: var(--accent); text-decoration: none; }
+  .affil { color: var(--muted); font-size: .95rem; margin-top: 6px; }
+  .venue { margin-top: 12px; font-weight: 600; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 24px 0 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+         border-radius: 999px; background: var(--btn); color: var(--btn-fg);
+         text-decoration: none; font-weight: 600; font-size: .95rem; }
+  .btn.disabled { opacity: .45; pointer-events: none; }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+  section { padding: 28px 0; border-top: 1px solid var(--border); }
+  h2 { text-align: center; font-size: 1.6rem; margin: 0 0 18px; }
+  .tldr { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+          padding: 16px 20px; }
+  .abstract { text-align: justify; }
+  .figure { margin: 0 0 24px; text-align: center; }
+  .figure img { max-width: 100%; height: auto; border-radius: 6px; }
+  .figure figcaption { color: var(--muted); font-size: .92rem; margin-top: 8px; text-align: left; }
+  .placeholder { border: 2px dashed var(--border); border-radius: 8px; padding: 48px 16px;
+                 color: var(--muted); background: var(--card); }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 8px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat b { display: block; font-size: 1.5rem; color: var(--accent); }
+  pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+        padding: 14px; overflow-x: auto; font-size: .85rem; }
+  footer { color: var(--muted); font-size: .85rem; text-align: center; padding: 28px 0 48px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Tracking Failures of Multi-Agent Gaussian Splatting SLAM under Temporally Sparse RGB-D Input: Analysis and a Feature-Guided Front End</h1>
+  <div class="authors">
+    <span>Phuc Nguyen Xuan<sup>1</sup></span>,&nbsp;
+    <span>Huu-Hung Nguyen<sup>2</sup></span>,&nbsp;
+    <span>Xiem HoangVan<sup>3</sup></span>
+  </div>
+  <div class="affil">
+    <sup>1</sup>Institute of System Integration, Le Quy Don Technical University &nbsp;·&nbsp;
+    <sup>2</sup>AI and Data Science Research Center, Le Quy Don Technical University &nbsp;·&nbsp;
+    <sup>3</sup>University of Engineering and Technology, Vietnam National University, Hanoi
+  </div>
+  <div class="venue">Under review</div><!-- TODO: replace with journal name and year after acceptance -->
+
+  <div class="buttons">
+    <!-- TODO: put the paper link (DOI / arXiv) in href and remove class "disabled" -->
+    <a class="btn disabled" href="#">
+      <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zM14 3.5V8h4.5"/></svg>Paper
+    </a>
+    <a class="btn disabled" href="#">
+      <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm0 7h18v2H3zm0 7h12v2H3z"/></svg>arXiv
+    </a>
+    <a class="btn" href="https://github.com/Pian-Nguyen/fg-mags-slam">
+      <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code
+    </a>
+    <a class="btn" href="#datasets">
+      <svg viewBox="0 0 24 24"><path d="M12 2C7 2 3 3.8 3 6v12c0 2.2 4 4 9 4s9-1.8 9-4V6c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.5 7 2s-2.6 2-7 2-7-1.5-7-2 2.6-2 7-2z"/></svg>Datasets
+    </a>
+  </div>
+</header>
+
+<section>
+  <h2>TL;DR</h2>
+  <div class="tldr">
+    When agents see the scene only every <i>k</i>-th frame, multi-agent 3DGS SLAM fails <b>one agent at a time, in pose tracking</b>, and pose-graph optimization does not repair it.
+    The cause is the dense-registration initializer. Initializing every frame with SuperPoint–LightGlue PnP and selecting keyframes by bidirectional depth overlap removed every failure in our runs.
+  </div>
+  <div class="stats">
+    <div class="stat"><b>0 / 42</b>failed runs (ours)</div>
+    <div class="stat"><b>20.9–26.8 → 0.5 cm</b>ATE on the hardest sequence</div>
+    <div class="stat"><b>≈ ½</b>peak GPU memory on Replica</div>
+    <div class="stat"><b>14</b>dataset–stride–scene settings</div>
+  </div>
+</section>
+
+<section>
+  <h2>Abstract</h2>
+  <p class="abstract">
+    Multi-agent Gaussian Splatting (3DGS) SLAM builds a shared photorealistic map, but current systems are tested on densely sampled RGB-D streams. In deployment, agents often observe the scene only at a reduced rate, because of bandwidth limits, dropped frames, or a deliberately lowered processing rate on a consumer GPU. We analyze MAGiC-SLAM and the front-end of Coko-SLAM on two multi-agent datasets at five frame strides. Failures are local: usually a single agent loses track while its teammates remain accurate, and near the robustness limit the outcome depends on the seed. They arise in per-agent pose tracking, and pose-graph optimization does not repair them; in one run it pulled a healthy agent off its trajectory. A per-frame study traces them to the dense registration used for initialization, which is precise at small motion but yields a few catastrophic poses at large motion. Photometric refinement, in turn, removes most of the advantage of a precise initialization. We therefore initialize every frame with SuperPoint–LightGlue PnP, and select keyframes by bidirectional depth overlap to reduce cost. In 42 runs the system never failed, reduced the error on the hardest sequence from 20.9–26.8 cm to 0.5 cm, was comparable elsewhere, and halved peak GPU memory on Replica.
+  </p>
+</section>
+
+<section>
+  <h2>Method</h2>
+  <figure class="figure">
+    <img src="static/images/pipeline.png" alt="Pipeline of the multi-agent system with the feature-guided front end">
+    <figcaption>Multi-agent pipeline. Shaded blocks are the agent-side components of our front end (SP+LG matching, PnP initialization with dense-registration fallback, bidirectional-overlap keyframes). Photometric refinement, mapping and the server are inherited from MAGiC-SLAM.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Results</h2>
+  <figure class="figure">
+    <img src="static/images/ate_per_setting.png" alt="ATE-all per setting for MAGiC-SLAM, CoKo-FE and ours">
+    <figcaption>ATE-all per setting (log scale), one marker per seed, released configurations for the baselines. Runs above the 5 cm line are failures.</figcaption>
+  </figure>
+
+  <!-- TODO: replace each placeholder with <img src="static/images/FILE.png" alt="..."> -->
+  <div class="grid">
+    <figure class="figure">
+      <div class="placeholder">Image placeholder<br><small>static/images/traj_replica.png</small></div>
+      <figcaption>Estimated vs. ground-truth trajectories, Replica Apartment-1, <i>k</i> = 10.</figcaption>
+    </figure>
+    <figure class="figure">
+      <div class="placeholder">Image placeholder<br><small>static/images/traj_aria.png</small></div>
+      <figcaption>Estimated vs. ground-truth trajectories, Aria Room-1, <i>k</i> = 4.</figcaption>
+    </figure>
+    <figure class="figure">
+      <div class="placeholder">Image placeholder<br><small>static/images/render_compare.png</small></div>
+      <figcaption>Rendered views of the merged Gaussian map: MAGiC-SLAM vs. ours.</figcaption>
+    </figure>
+    <figure class="figure">
+      <div class="placeholder">Video placeholder<br><small>static/videos/demo.mp4</small></div>
+      <figcaption>Fly-through of the reconstructed map.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="datasets">
+  <h2>Datasets</h2>
+  <p>We evaluate on <b>ReplicaMultiagent</b> (four synthetic scenes, two agents, strides <i>k</i> ∈ {5, 10}) and <b>AriaMultiagent</b> (two real rooms, three agents, strides <i>k</i> ∈ {1, 2, 4}). Both datasets are available from their original providers; download instructions are in the <a href="https://github.com/Pian-Nguyen/fg-mags-slam">code repository</a>.</p>
+</section>
+
+<section>
+  <h2>BibTeX</h2>
+<pre>@article{nguyen2026tracking,
+  title   = {Tracking Failures of Multi-Agent Gaussian Splatting SLAM under Temporally Sparse RGB-D Input: Analysis and a Feature-Guided Front End},
+  author  = {Nguyen Xuan, Phuc and Nguyen, Huu-Hung and HoangVan, Xiem},
+  journal = {TODO},
+  year    = {2026}
+}</pre>
+</section>
+
+<footer>
+  This work builds on MAGiC-SLAM and Coko-SLAM. We thank their authors for releasing code and configurations.<br>
+  Page layout inspired by academic project pages.
+</footer>
+
+</div>
+</body>
+</html>
